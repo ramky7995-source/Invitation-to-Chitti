@@ -20,17 +20,23 @@
 
   .card {
     background: rgba(0, 0, 0, 0.25);
-    padding: 35px;
+    padding: 30px;
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 15px 40px rgba(0,0,0,0.4);
     position: relative;
     width: 320px;
+    min-height: 260px;
   }
 
   h1 {
     font-size: 1.8rem;
-    margin-bottom: 25px;
+    margin-bottom: 40px;
+  }
+
+  .buttons {
+    position: relative;
+    height: 100px;
   }
 
   button {
@@ -39,7 +45,6 @@
     border: none;
     border-radius: 30px;
     cursor: pointer;
-    margin: 10px;
   }
 
   .yes {
@@ -51,8 +56,8 @@
     background: #f44336;
     color: white;
     position: absolute;
-    right: 20px;
-    bottom: 20px;
+    left: 160px;
+    top: 0;
   }
 
   .heart {
@@ -64,14 +69,8 @@
   }
 
   @keyframes floatUp {
-    0% {
-      transform: translateY(0) scale(1);
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(-110vh) scale(1.5);
-      opacity: 0;
-    }
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-110vh); opacity: 0; }
   }
 </style>
 </head>
@@ -80,11 +79,13 @@
 
 <div class="card" id="content">
   <h1>Chitti, will you be my Valentine? 💖</h1>
-  <button class="yes" onclick="yesClicked()">Yes</button>
-  <button class="no" id="noBtn">No</button>
+
+  <div class="buttons">
+    <button class="yes" onclick="yesClicked()">Yes</button>
+    <button class="no" id="noBtn">No</button>
+  </div>
 </div>
 
-<!-- 🎵 Local song file -->
 <audio id="loveSong" loop>
   <source src="hamsaroo.mp3" type="audio/mpeg">
 </audio>
@@ -93,22 +94,17 @@
   const noBtn = document.getElementById("noBtn");
 
   function moveNo() {
-    const padding = 20;
-    const maxX = window.innerWidth - noBtn.offsetWidth - padding;
-    const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+    const x = Math.random() * 120;  // safe horizontal range
+    const y = Math.random() * 40;   // safe vertical range
 
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
   }
 
-  // Desktop: run away on hover
+  // Desktop
   noBtn.addEventListener("mouseover", moveNo);
 
-  // Mobile: run away on touch
-  noBtn.addEventListener("touchstart", function(e) {
+  // Mobile
+  noBtn.addEventListener("touchstart", function (e) {
     e.preventDefault();
     moveNo();
   });
@@ -128,9 +124,7 @@
     heart.className = "heart";
     heart.innerHTML = "❤️";
     heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (20 + Math.random() * 20) + "px";
     document.body.appendChild(heart);
-
     setTimeout(() => heart.remove(), 6000);
   }, 400);
 </script>
